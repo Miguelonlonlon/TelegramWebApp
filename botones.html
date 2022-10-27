@@ -203,14 +203,24 @@
             <button style="width:30%;" id="subButton" onclick="keyPressed('OK')" disabled>OK</button>
         </div>
 </section>
-
+    <h3>Init Data: </h3>
+    <pre id="initData"></pre>
+    <h3>Theme Data: </h3>
+    <pre id="themeData"></pre>
+    <h3>Init Data JSON: </h3>
+    <pre id="initData2"></pre>
+    <h3>Init Data </h3>
+    <pre id="initDataquery_id"></pre>
 <script type="application/javascript">
     Telegram.WebApp.ready();
     window.code = "";
 
-    const initData = Telegram.WebApp.initDataUnsafe;
+    const initData = Telegram.WebApp;
     document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
-
+    document.querySelector('#initData').innerHTML = initData;
+    document.querySelector('#initData2').innerHTML = JSON.stringify(initData, null, 2);
+    document.querySelector('#initDataquery_id').innerHTML = JSON.stringify(initData);
+    
     Telegram.WebApp.MainButton
         .setText('CLOSE WEBVIEW')
         .show()
