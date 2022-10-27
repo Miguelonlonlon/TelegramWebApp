@@ -36,9 +36,9 @@
 
         button {
             display: block;
-            width: 100%;
+            width: 30%;
             font-size: 14px;
-            margin: 15px 0;
+            margin: 5px 5px;
             padding: 12px 20px;
             border: none;
             border-radius: 4px;
@@ -182,38 +182,33 @@
 <body>
 
 <section>
-    <div id="divKeypad" style="width:100vw; height: 100vh;" >
         <div class="fila" style="display: flex; flex-direction: row; height:23%; width: 90%; margin: 0 auto;"> 
-            <button style="width:30%;" onclick="send({payload: 1})">1</button>
-            <button style="width:30%;" onclick="send({payload: 2})">2</button>
-            <button style="width:30%;" onclick="send({payload: 3})">3</button>
+            <button style="width:30%;" onclick="keyPressed(1)">1</button>
+            <button style="width:30%;" onclick="keyPressed(2)">2</button>
+            <button style="width:30%;" onclick="keyPressed(3)">3</button>
         </div>
         <div class="fila" style="display: flex; flex-direction: row; height:23%; width: 90%; margin: 0 auto;"> 
-            <button style="width:30%;" onclick="send({payload: 4})">4</button>
-            <button style="width:30%;" onclick="send({payload: 5})">5</button>
-            <button style="width:30%;" onclick="send({payload: 6})">6</button>
+            <button style="width:30%;" onclick="keyPressed(4)">4</button>
+            <button style="width:30%;" onclick="keyPressed(5)">5</button>
+            <button style="width:30%;" onclick="keyPressed(6)">6</button>
         </div>
         <div class="fila" style="display: flex; flex-direction: row; height:23%; width: 90%; margin: 0 auto;"> 
-            <button style="width:30%;" onclick="send({payload: 7})">7</button>
-            <button style="width:30%;" onclick="send({payload: 8})">8</button>
-            <button style="width:30%;" onclick="send({payload: 9})">9</button>
+            <button style="width:30%;" onclick="keyPressed(7)">7</button>
+            <button style="width:30%;" onclick="keyPressed(8)">8</button>
+            <button style="width:30%;" onclick="keyPressed(9)">9</button>
         </div>
         <div class="fila" style="display: flex; flex-direction: row; height:23%; width: 90%; margin: 0 auto;"> 
-            <button style="width:30%;" id="conbut" disabled></button>
-            <button style="width:30%;" onclick="send({payload: 0})">0</button>
-            <button style="width:30%;" id="subButton" onclick="send({complete: true})">OK</button>
+            <button style="width:30%;" id="conbut" onclick="keyPressed('C')" >C</button>
+            <button style="width:30%;" onclick="keyPressed(0)">0</button>
+            <button style="width:30%;" id="subButton" onclick="keyPressed('OK')" disabled>OK</button>
         </div>
 </section>
 
 <script type="application/javascript">
     Telegram.WebApp.ready();
+    window.code = "";
 
     const initData = Telegram.WebApp.initData || '';
-    const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
-
-    document.querySelector('#greeting').innerHTML = `Hi, ${initDataUnsafe.user.first_name}!`;
-    document.querySelector('#initData').innerHTML = JSON.stringify(initData, null, 2);
-    document.querySelector('#initDataUnsafe').innerHTML = JSON.stringify(initDataUnsafe, null, 2);
     document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
 
     Telegram.WebApp.MainButton
@@ -251,38 +246,18 @@
         }
     }
 
-    function requestLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                document.querySelector('#locationData').innerHTML = '(' + position.coords.latitude + ', ' + position.coords.longitude + ')';
-            });
+    function keyPressed(key) {
+        if (key === "C") {
+            if(window.code !== "")
+                window.code = window.code.slice(0, -1);
+        } else if (key === "OK") {
+            Telegram.WebApp.sendData(window.code);
         } else {
-            document.querySelector('#locationData').innerHTML = '(Geolocation is not supported in this browser)';
+            window.code = window.code + key.toString();
+            if (window.code.length === 4) {
+                document.querySelector('#subButton').disabled = false;
+            }
         }
-
-        return false;
-    }
-
-    function requestVideo() {
-        if (navigator.mediaDevices) {
-            navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(function(stream) {
-                document.querySelector('#videoData').innerHTML = '(Access granted)';
-            });
-        } else {
-            document.querySelector('#videoData').innerHTML = '(Media devices is not supported in this browser)';
-        }
-        return false;
-    }
-
-    function requestAudio() {
-        if (navigator.mediaDevices) {
-            navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
-                document.querySelector('#audioData').innerHTML = '(Access granted)';
-            });
-        } else {
-            document.querySelector('#audioData').innerHTML = '(Media devices is not supported in this browser)';
-        }
-        return false;
     }
 </script>
 </body>
