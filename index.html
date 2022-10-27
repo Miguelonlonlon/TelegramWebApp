@@ -228,8 +228,8 @@
 <script type="application/javascript">
     Telegram.WebApp.ready();
 
-    const initData = Telegram.WebApp.initData || '';
-    const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+    const initData = Telegram.WebApp.initData;
+    const initDataUnsafe = Telegram.WebApp.initDataUnsafequery_id || {};
 
     document.querySelector('#greeting').innerHTML = `Hi, ${initDataUnsafe.user.first_name}!`;
     document.querySelector('#initData').innerHTML = JSON.stringify(initData, null, 2);
