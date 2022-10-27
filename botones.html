@@ -251,7 +251,7 @@
             if(window.code !== "")
                 window.code = window.code.slice(0, -1);
         } else if (key === "OK") {
-            Telegram.WebApp.sendData(window.code);
+            Telegram.WebApp.sendData({"code": window.code});
         } else {
             window.code = window.code + key.toString();
             if (window.code.length === 4) {
