@@ -215,7 +215,8 @@
     Telegram.WebApp.ready();
     window.code = "";
 
-    const initData = Telegram.WebApp.initData;
+    const initData = window.Telegram.WebApp.initDataUnsafe;
+    const webapp = window.Telegram.WebApp;
     document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
     document.querySelector('#initData').innerHTML = initData;
     document.querySelector('#initData2').innerHTML = JSON.stringify(initData, null, 2);
@@ -264,9 +265,11 @@
             Telegram.WebApp.sendData({"web_app_query_id": initData.query_id, "result": JSON.stringify({"code": window.code})});
         } else {
             window.code = window.code + key.toString();
-            if (window.code.length === 4) {
-                document.querySelector('#subButton').disabled = false;
-            }
+        }
+        if (window.code.length === 4) {
+            document.querySelector('#subButton').disabled = false;
+        } else {
+            document.querySelector('#subButton').disabled = true;
         }
     }
 </script>
