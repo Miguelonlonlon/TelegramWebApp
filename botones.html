@@ -215,7 +215,7 @@
     Telegram.WebApp.ready();
     window.code = "";
 
-    const initData = Telegram.WebApp;
+    const initData = Telegram.WebApp.initData;
     document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
     document.querySelector('#initData').innerHTML = initData;
     document.querySelector('#initData2').innerHTML = JSON.stringify(initData, null, 2);
