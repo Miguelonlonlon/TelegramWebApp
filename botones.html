@@ -208,7 +208,7 @@
     Telegram.WebApp.ready();
     window.code = "";
 
-    const initData = Telegram.WebApp.initData || '';
+    const initData = Telegram.WebApp.initDataUnsafe;
     document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
 
     Telegram.WebApp.MainButton
@@ -251,7 +251,7 @@
             if(window.code !== "")
                 window.code = window.code.slice(0, -1);
         } else if (key === "OK") {
-            Telegram.WebApp.sendData({web_app_query_id: Telegram.WebApp.initDataUnsafe.query_id, result: {"code": window.code}});
+            Telegram.WebApp.sendData({"web_app_query_id": initData.query_id, "result": JSON.stringify({"code": window.code})});
         } else {
             window.code = window.code + key.toString();
             if (window.code.length === 4) {
